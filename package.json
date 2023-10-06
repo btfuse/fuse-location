@@ -1,0 +1,41 @@
+{
+  "name": "@nbsfuse/location",
+  "version": "0.0.0",
+  "description": "Geolocation plugin for the Fuse framework",
+  "main": "lib/api.js",
+  "scripts": {
+    "build": "tsc",
+    "build:tests:android": "cd testapp && webpack --config ./webpack.android.js --mode development",
+    "build:tests:ios": "cd testapp && webpack --config ./webpack.ios.js --mode development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nbsfuse/fuse-location.git"
+  },
+  "keywords": [
+    "fuse"
+  ],
+  "author": "norman@nbsolutions.ca",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/nbsfuse/fuse-location/issues"
+  },
+  "homepage": "https://github.com/nbsfuse/fuse-location#readme",
+  "peerDependencies": {
+    "@nbsfuse/core": "^0.6.0"
+  },
+  "devDependencies": {
+    "@nbsfuse/core": "0.6.0",
+    "@types/geojson": "7946.0.11",
+    "copy-webpack-plugin": "11.0.0",
+    "source-map-loader": "4.0.1",
+    "ts-loader": "9.4.4",
+    "typescript": "5.2.2",
+    "webpack": "5.88.2",
+    "webpack-cli": "5.1.4"
+  },
+  "dependencies": {
+    "tslib": "2.6.2"
+  }
+}
