@@ -18,6 +18,7 @@ limitations under the License.
 package ca.nbsolutions.fuse.plugins.location;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.IntentSender;
 //import android.location.LocationRequest;
 import android.Manifest.permission;
@@ -59,6 +60,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.Priority;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -108,6 +110,107 @@ public class FuseLocationPlugin extends FusePlugin {
 
     @Override
     protected void _initHandles() {
+        this.attachHandler("/assertSettings", new APIHandler<FuseLocationPlugin>(this) {
+            @Override
+            public void execute(FuseAPIPacket packet, FuseAPIResponse response) throws IOException, JSONException {
+                if (!this.plugin.$isGPAvailable) {
+                    response.send(new FuseLocationGoogleServicesNotAvailableError(this.plugin.$gpConnectionResult));
+                    return;
+                }
+
+                JSONObject packetData = packet.readAsJSONObject();
+
+                LocationRequest.Builder builder = new LocationRequest.Builder(1000);
+                JSONArray permissionSet = packetData.optJSONArray("permissionSet");
+                int priority = Priority.PRIORITY_LOW_POWER;
+                if (permissionSet != null && permissionSet.length() == 2) {
+                    // if we have 2 permissions, then we want FINE location
+                    priority = Priority.PRIORITY_HIGH_ACCURACY;
+                }
+                builder.setPriority(priority);
+
+                LocationSettingsRequest.Builder settingsBuilder = new LocationSettingsRequest.Builder();
+                settingsBuilder.addLocationRequest(builder.build());
+                SettingsClient client = LocationServices.getSettingsClient(this.plugin.getContext().getActivityContext());
+                Task<LocationSettingsResponse> checkTask = client.checkLocationSettings(settingsBuilder.build());
+
+                checkTask.addOnSuccessListener(locationSettingsResponse -> {
+                    if (locationSettingsResponse == null) {
+                        response.send(new FuseError(TAG, 0, "Unable to check Location Settings"));
+                        return;
+                    }
+
+                    LocationSettingsStates nstates = locationSettingsResponse.getLocationSettingsStates();
+                    if (nstates == null) {
+                        response.send(new FuseError(TAG, 0, "Unable to check Location Settings"));
+                        return;
+                    }
+
+                    try {
+                        JSONObject states = $mapLocationSettingState(nstates);
+                        response.send(states);
+                    }
+                    catch (JSONException ex) {
+                        getContext().getLogger().error(TAG, "Unable to map location setting states", ex);
+                        response.send(new FuseError(TAG, 0, "Unable to map location settings"));
+                    }
+                });
+
+                Activity activity = this.plugin.getContext().getActivityContext();
+
+                checkTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                        if (e instanceof ResolvableApiException) {
+                            try {
+                                int settingsRequestCode = RequestCodeManager.getInstance().getRequestCode();
+                                CompletableFuture<FuseActivityResult> checkFuture = _addActivityResultFuture(settingsRequestCode);
+                                ResolvableApiException resolvable = (ResolvableApiException)e;
+                                resolvable.startResolutionForResult(activity, settingsRequestCode);
+
+                                new Thread(() -> {
+                                    FuseActivityResult result = null;
+                                    try {
+                                        result = checkFuture.get();
+                                    }
+                                    catch (ExecutionException | InterruptedException ignored) {
+                                        response.send(new FuseError("FuseLocation", 0, "Unable to check location settings"));
+                                        return;
+                                    }
+
+                                    int resultCode = result.getResultCode();
+                                    if (resultCode == Activity.RESULT_CANCELED) {
+                                        response.send(new FuseError("FuseLocation", 0, "Unable to check location settings"));
+                                        return;
+                                    }
+
+                                    // I think at this point we don't actually know if the user corrected the problem, and you in theory would
+                                    // try the check again. Handling location checks might be better off in application-land.
+                                    LocationSettingsStates nstates = LocationSettingsStates.fromIntent(result.getData());
+                                    if (nstates == null) {
+                                        response.send(new FuseError("FuseLocation", 0, "Unable to check location settings"));
+                                        return;
+                                    }
+
+                                    try {
+                                        response.send($mapLocationSettingState(nstates));
+                                    }
+                                    catch (JSONException ex) {
+                                        getContext().getLogger().error(TAG, "Unable to map location setting states", ex);
+                                        response.send(new FuseError(TAG, 0, "Unable to map location settings"));
+                                    }
+                                }).start();
+                            }
+                            catch (IntentSender.SendIntentException ignored) {
+                                response.send(new FuseError("FuseLocation", 0, "Unable to check location settings"));
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
         this.attachHandler("/requestPermissions", new APIHandler<FuseLocationPlugin>(this) {
             @Override
             public void execute(FuseAPIPacket packet, FuseAPIResponse response) throws IOException, JSONException {
@@ -149,54 +252,7 @@ public class FuseLocationPlugin extends FusePlugin {
                     return;
                 }
 
-                LocationRequest.Builder builder = new LocationRequest.Builder(1000);
-                JSONArray permissionSet = packetData.optJSONArray("permissionSet");
-                int priority = Priority.PRIORITY_BALANCED_POWER_ACCURACY;
-                if (permissionSet != null && permissionSet.length() == 2) {
-                    // if we have 2 permissions, then we want FINE location
-                    priority = Priority.PRIORITY_HIGH_ACCURACY;
-                }
-                builder.setPriority(priority);
-
-                LocationSettingsRequest.Builder settingsBuilder = new LocationSettingsRequest.Builder();
-                settingsBuilder.addLocationRequest(builder.build());
-                SettingsClient client = LocationServices.getSettingsClient(this.plugin.getContext().getActivityContext());
-                Task<LocationSettingsResponse> checkTask = client.checkLocationSettings(settingsBuilder.build());
-
-                checkTask.addOnSuccessListener(locationSettingsResponse -> {
-                    response.send(result);
-                });
-
-                Activity activity = this.plugin.getContext().getActivityContext();
-
-                checkTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        e.printStackTrace();
-                        if (e instanceof ResolvableApiException) {
-                            try {
-                                int settingsRequestCode = RequestCodeManager.getInstance().getRequestCode();
-                                CompletableFuture<FuseActivityResult> checkFuture = _addActivityResultFuture(settingsRequestCode);
-                                ResolvableApiException resolvable = (ResolvableApiException)e;
-                                resolvable.startResolutionForResult(activity, settingsRequestCode);
-                                FuseActivityResult result = checkFuture.get();
-
-                                int resultCode = result.getResultCode();
-
-                                if (resultCode == Activity.RESULT_CANCELED) {
-                                    response.send(new FuseError("FuseLocation", 0, "Unable to check location settings"));
-                                    return;
-                                }
-
-                                // I think at this point we don't actually know if the user corrected the problem, and you in theory would
-                                // try the check again. Handling location checks might be better off in application-land.
-                            }
-                            catch (IntentSender.SendIntentException | ExecutionException | InterruptedException ignored) {
-                                response.send(new FuseError("FuseLocation", 0, "Unable to check location settings"));
-                            }
-                        }
-                    }
-                });
+                response.send(result);
             }
         });
 
@@ -377,7 +433,38 @@ public class FuseLocationPlugin extends FusePlugin {
         int interval = params.optInt("interval", 1000);
 
         LocationRequest.Builder builder = new LocationRequest.Builder(interval);
-        builder.setPriority(FuseLocationAccuracy.FINE.ordinal() == accuracy ? Priority.PRIORITY_HIGH_ACCURACY : Priority.PRIORITY_BALANCED_POWER_ACCURACY);
+        builder.setPriority(FuseLocationAccuracy.FINE.ordinal() == accuracy ? Priority.PRIORITY_HIGH_ACCURACY : Priority.PRIORITY_LOW_POWER);
         return builder.build();
+    }
+
+//    private CompletableFuture<Boolean> $checkStatus(LocationRequest request) {
+//        CompletableFuture<Boolean> future = new CompletableFuture<>();
+//
+//        LocationSettingsRequest.Builder settingsBuilder = new LocationSettingsRequest.Builder();
+//        settingsBuilder.addLocationRequest(request);
+//        SettingsClient settingsClient = LocationServices.getSettingsClient(getContext().getActivityContext());
+//
+//        Task<LocationSettingsResponse> task = settingsClient.checkLocationSettings(settingsBuilder.build());
+//
+//        task.addOnSuccessListener(locationSettingsResponse -> {
+//            locationSettingsResponse.getLocationSettingsStates().
+//        });
+//
+//        return future;
+//    }
+
+    private JSONObject $mapLocationSettingState(LocationSettingsStates states) throws JSONException {
+        JSONObject obj = new JSONObject();
+
+        obj.put("bluetoothPresent", states.isBlePresent());
+        obj.put("bluetoothUsable", states.isBleUsable());
+        obj.put("locationPresent", states.isLocationPresent());
+        obj.put("locationUsable", states.isLocationUsable());
+        obj.put("gpsPresent", states.isGpsPresent());
+        obj.put("gpsUsable", states.isGpsUsable());
+        obj.put("networkPresent", states.isNetworkLocationPresent());
+        obj.put("networkUsable", states.isNetworkLocationUsable());
+
+        return obj;
     }
 }

@@ -29,8 +29,8 @@ import {
 let dataContainer: HTMLElement;
 let plugin: FuseLocation;
 
-async function createListener(): Promise<FuseLocationSubscription> {
-    let subscription: FuseLocationSubscription = await plugin.watch(FuseLocationAccuracy.FINE, async () => {
+async function createListener(mode: FuseLocationAccuracy): Promise<FuseLocationSubscription> {
+    let subscription: FuseLocationSubscription = await plugin.watch(mode, async () => {
         return true;
     });
 
@@ -60,23 +60,74 @@ window.onload = async () => {
     plugin = new FuseLocation(context);
     (window as any).plugin = plugin;
 
-    let toggleBtn: HTMLButtonElement = document.createElement('button');
-    toggleBtn.innerHTML = 'Toggle Location';
+    let currentMode: FuseLocationAccuracy | null = null;
+
+    let toggleFineBtn: HTMLButtonElement = document.createElement('button');
+    toggleFineBtn.innerHTML = 'Toggle Fine Location';
+
+    let toggleCoarseBtn: HTMLButtonElement = document.createElement('button');
+    toggleCoarseBtn.innerHTML = 'Toggle Coarse Location';
+    
+    let checkBtn: HTMLButtonElement = document.createElement('button');
+    checkBtn.innerHTML = 'Check Settings';
+    
+
     let subscription: FuseLocationSubscription | null = null;
 
-    toggleBtn.addEventListener('click', async () => {
+    toggleFineBtn.addEventListener('click', async () => {
         if (subscription) {
             await subscription.release();
             subscription = null;
+            dataContainer.innerHTML = '';
+
+            if (currentMode !== FuseLocationAccuracy.FINE) {
+                subscription = await createListener(FuseLocationAccuracy.FINE);
+                currentMode = FuseLocationAccuracy.FINE;
+            }
+            else {
+                currentMode = null;
+            }
         }
         else {
-            subscription = await createListener();
+            subscription = await createListener(FuseLocationAccuracy.FINE);
+            currentMode = FuseLocationAccuracy.FINE;
         }
+    });
+
+    toggleCoarseBtn.addEventListener('click', async () => {
+        if (subscription) {
+            await subscription.release();
+            subscription = null;
+            dataContainer.innerHTML = '';
+            
+            if (currentMode !== FuseLocationAccuracy.COARSE) {
+                subscription = await createListener(FuseLocationAccuracy.COARSE);
+                currentMode = FuseLocationAccuracy.COARSE;
+            }
+            else {
+                currentMode = null;
+            }
+        }
+        else {
+            subscription = await createListener(FuseLocationAccuracy.COARSE);
+            currentMode = FuseLocationAccuracy.COARSE;
+        }
+    });
+
+    checkBtn.addEventListener('click', async () => {
+        if (!subscription) {
+            dataContainer.innerHTML = 'subscription required.';
+            return;
+        }
+
+        console.log(await subscription.checkSettings());
     });
 
     dataContainer = document.createElement('div');
 
-    document.body.appendChild(toggleBtn);
+    document.body.appendChild(toggleFineBtn);
+    document.body.appendChild(toggleCoarseBtn);
+    document.body.appendChild(checkBtn);
     document.body.appendChild(dataContainer);
     
     

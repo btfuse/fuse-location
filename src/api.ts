@@ -32,3 +32,4 @@ export {
     TFuseGeolocationPoint,
     IFuseGeolocationProperties
 } from './TFuseGeolocationPoint';
+export {IFuseLocationSettingsState} from './IFuseLocationSettingsState';

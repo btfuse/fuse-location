@@ -23,7 +23,8 @@ import {
     FusePermissionGrantResult,
     FuseContext,
     FuseError,
-    FuseAPIResponse
+    FuseAPIResponse,
+    FuseAPI
 } from '@nbsfuse/core';
 import {
     FuseLocationSubscription,
@@ -32,6 +33,7 @@ import {
 } from './FuseLocationSubscription';
 import { FuseLocationAccuracy } from './FuseLocationAccuracy';
 import { IFuseLocationUpdateEvent } from './IFuseLocationUpdateEvent';
+import { IFuseLocationSettingsState } from './IFuseLocationSettingsState';
 
 export class FuseLocation extends FusePlugin {
     private $callbackID: string;
@@ -82,6 +84,11 @@ export class FuseLocation extends FusePlugin {
         await this._exec('/callback', ContentType.TEXT, this.$callbackID);
     }
 
+    public async assertSettings(options: IFuseLocationSubscriptionOptions): Promise<IFuseLocationSettingsState> {
+        let res: FuseAPIResponse = await this._exec('/assertSettings', ContentType.JSON, options);
+        return res.readAsJSON();
+    }
+
     public async subscribe(options: IFuseLocationSubscriptionOptions, justificationHandler: TFuseJustificationHandler): Promise<FuseLocationSubscription> {
         if (this.$callbackID === null) {
             await this.$init();
@@ -95,7 +102,7 @@ export class FuseLocation extends FusePlugin {
         let res: FuseAPIResponse = await this._exec('/subscribe', ContentType.JSON, options);
         subscriptionID = await res.readAsText();
 
-        let subscription: FuseLocationSubscription = new FuseLocationSubscription(this, subscriptionID, options.accuracy, grantResult);
+        let subscription: FuseLocationSubscription = new FuseLocationSubscription(this, subscriptionID, options, grantResult);
 
         this.$subscriptions.push(subscription);
 
