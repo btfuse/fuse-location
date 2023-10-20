@@ -19,12 +19,8 @@ import {
     ContentType,
     FusePlugin,
     TFuseJustificationHandler,
-    FusePermissionRequest,
-    FusePermissionGrantResult,
     FuseContext,
-    FuseError,
-    FuseAPIResponse,
-    FuseAPI
+    FuseError
 } from '@nbsfuse/core';
 import {
     FuseLocationSubscription,
@@ -35,7 +31,7 @@ import { FuseLocationAccuracy } from './FuseLocationAccuracy';
 import { IFuseLocationUpdateEvent } from './IFuseLocationUpdateEvent';
 import { IFuseLocationSettingsState } from './IFuseLocationSettingsState';
 
-export class FuseLocation extends FusePlugin {
+export abstract class FuseLocationPlugin extends FusePlugin {
     private $callbackID: string;
     private $subscriptions: FuseLocationSubscription[];
 
@@ -83,26 +79,17 @@ export class FuseLocation extends FusePlugin {
 
         await this._exec('/callback', ContentType.TEXT, this.$callbackID);
     }
+    
+    public abstract assertSettings(options: IFuseLocationSubscriptionOptions): Promise<IFuseLocationSettingsState>;
 
-    public async assertSettings(options: IFuseLocationSubscriptionOptions): Promise<IFuseLocationSettingsState> {
-        let res: FuseAPIResponse = await this._exec('/assertSettings', ContentType.JSON, options);
-        return res.readAsJSON();
-    }
+    protected abstract _subscribe(options: IFuseLocationSubscriptionOptions, justificationHandler: TFuseJustificationHandler): Promise<FuseLocationSubscription>;
 
     public async subscribe(options: IFuseLocationSubscriptionOptions, justificationHandler: TFuseJustificationHandler): Promise<FuseLocationSubscription> {
         if (this.$callbackID === null) {
             await this.$init();
         }
 
-        let permRequest: FusePermissionRequest<FuseLocationAccuracy> = new FusePermissionRequest(this._createAPIBridge('/requestPermissions'), [options.accuracy], justificationHandler);
-        let grantResult: FusePermissionGrantResult<FuseLocationAccuracy> = null;
-        grantResult = await permRequest.request();
-
-        let subscriptionID: string = null;
-        let res: FuseAPIResponse = await this._exec('/subscribe', ContentType.JSON, options);
-        subscriptionID = await res.readAsText();
-
-        let subscription: FuseLocationSubscription = new FuseLocationSubscription(this, subscriptionID, options, grantResult);
+        let subscription: FuseLocationSubscription = await this._subscribe(options, justificationHandler);
 
         this.$subscriptions.push(subscription);
 

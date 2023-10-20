@@ -20,7 +20,6 @@ import {
     FusePermissionGrantResult
 } from '@nbsfuse/core';
 import { FuseLocationAccuracy } from './FuseLocationAccuracy';
-import { FuseLocation } from "./FuseLocation";
 import { TFuseSerializable } from '@nbsfuse/core';
 import {
     TFuseGeolocationPoint
@@ -29,6 +28,7 @@ import { IFuseLocationAvailabilityEvent } from './IFuseLocationAvailabilityEvent
 import { IFuseLocationUpdateEvent } from './IFuseLocationUpdateEvent';
 import { FuseLocationEventType } from './FuseLocationEventType';
 import { IFuseLocationSettingsState } from './IFuseLocationSettingsState';
+import { FuseLocationPlugin } from './FuseLocationPlugin';
 
 interface __IFuseLocationSubscriptionOptions {
     accuracy: FuseLocationAccuracy;
@@ -85,14 +85,14 @@ export class FuseLocationSubscriptionOptionsBuilder {
 export type TFuseLocationHandler = (point: Readonly<TFuseGeolocationPoint>[]) => void;
 
 export class FuseLocationSubscription {
-    private $plugin: FuseLocation;
+    private $plugin: FuseLocationPlugin;
     private $callbacks: TFuseLocationHandler[];
     private $desiredAccuracy: FuseLocationAccuracy;
     private $grants: FusePermissionGrantResult<FuseLocationAccuracy>;
     private $id: string;
     private $options: IFuseLocationSubscriptionOptions;
 
-    public constructor(plugin: FuseLocation, id: string, options: IFuseLocationSubscriptionOptions, grantResult: FusePermissionGrantResult<FuseLocationAccuracy>) {
+    public constructor(plugin: FuseLocationPlugin, id: string, options: IFuseLocationSubscriptionOptions, grantResult: FusePermissionGrantResult<FuseLocationAccuracy>) {
         this.$plugin = plugin;
         this.$id = id;
         this.$callbacks = [];

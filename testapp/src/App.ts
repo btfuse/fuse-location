@@ -20,14 +20,15 @@ import {
 } from '@nbsfuse/core';
 
 import {
-    FuseLocation,
+    FuseLocationPlugin,
     FuseLocationAccuracy,
     FuseLocationSubscription,
-    TFuseGeolocationPoint
+    TFuseGeolocationPoint,
+    FuseLocationPluginFactory
 } from '../../src/api';
 
 let dataContainer: HTMLElement;
-let plugin: FuseLocation;
+let plugin: FuseLocationPlugin;
 
 async function createListener(mode: FuseLocationAccuracy): Promise<FuseLocationSubscription> {
     let subscription: FuseLocationSubscription = await plugin.watch(mode, async () => {
@@ -57,7 +58,7 @@ async function createListener(mode: FuseLocationAccuracy): Promise<FuseLocationS
 window.onload = async () => {
     let builder: FuseContextBuilder = new FuseContextBuilder();
     let context: FuseContext = await builder.build();
-    plugin = new FuseLocation(context);
+    plugin = new FuseLocationPluginFactory().create(context);
     (window as any).plugin = plugin;
 
     let currentMode: FuseLocationAccuracy | null = null;
@@ -120,7 +121,7 @@ window.onload = async () => {
             return;
         }
 
-        console.log(await subscription.checkSettings());
+        console.log(await subscription.assertSettings());
     });
 
     dataContainer = document.createElement('div');
@@ -129,6 +130,4 @@ window.onload = async () => {
     document.body.appendChild(toggleCoarseBtn);
     document.body.appendChild(checkBtn);
     document.body.appendChild(dataContainer);
-    
-    
 };

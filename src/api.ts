@@ -16,8 +16,9 @@ limitations under the License.
 */
 
 export {
-    FuseLocation
-} from './FuseLocation';
+    FuseLocationPlugin
+} from './FuseLocationPlugin';
+export {FuseLocationPluginFactory} from './FuseLocationPluginFactory';
 export {
     FuseLocationSubscription,
     FuseLocationSubscriptionOptionsBuilder,

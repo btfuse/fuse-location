@@ -5,3 +5,5 @@ gradle
 .gradle
 gradlew
 gradlew.bat
+xcuserdata
+/deps
