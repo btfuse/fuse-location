@@ -63,7 +63,12 @@ limitations under the License.
             return;
         }
         
-        NBSFuseLocationClient* client = [strongSelf->$clients objectForKey: clientID];
+        NBSFuseLocationClient* client = nil;
+        
+        @synchronized (strongSelf->$clients) {
+            client = [strongSelf->$clients objectForKey: clientID];
+        }
+        
         if (client == nil) {
             [response sendError:[
                 [NBSFuseError alloc] init:[strongSelf getID] withCode: 0 withMessage: [
@@ -122,8 +127,10 @@ limitations under the License.
         
         NBSFuseLocationClient* client = [[NBSFuseLocationClient alloc] init:[strongSelf getContext] withDelegate:strongSelf];
         NSString* subID = [client getID];
-        [strongSelf->$clients setObject:client forKey:subID];
         
+        @synchronized (strongSelf->$clients) {
+            [strongSelf->$clients setObject:client forKey:subID];
+        }
         
         CLLocationManager* lm = [client getAPI];
         
@@ -135,7 +142,6 @@ limitations under the License.
         }
         
         bool apiEnabled = [CLLocationManager locationServicesEnabled];
-        NSLog(@"Location API Enabled: %d", apiEnabled);
         
         CLAuthorizationStatus status = [lm authorizationStatus];
         if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
@@ -153,6 +159,38 @@ limitations under the License.
             }
         }];
     }];
+    
+    [self attachHandler:@"/unsubscribe" callback:^(NBSFuseAPIPacket* packet, NBSFuseAPIResponse* response) {
+        NBSFuseLocationPlugin* strongSelf = weakSelf;
+        
+        NSString* clientID = [packet readAsString];
+        
+        if (clientID == nil) {
+            [response sendError:[[NBSFuseError alloc] init:[strongSelf getID] withCode: 0 withMessage:@"Subscription ID required"]];
+            return;
+        }
+        
+        NBSFuseLocationClient* client = nil;
+        @synchronized (strongSelf->$clients) {
+            client = [strongSelf->$clients objectForKey: clientID];
+        }
+        
+        if (client == nil) {
+            [response sendError:[
+                [NBSFuseError alloc] init:[strongSelf getID] withCode: 0 withMessage: [
+                    NSString stringWithFormat:@"No Subscription Client for id %@", clientID
+                ]]
+            ];
+            return;
+        }
+        
+        [client stop];
+        @synchronized (strongSelf->$clients) {
+            [strongSelf->$clients removeObjectForKey: clientID];
+        }
+        
+        [response sendNoContent];
+    }];
 }
 
 - (void) locationManager:(CLLocationManager*) lm didUpdateLocations:(NSArray<CLLocation*>*) locations {
@@ -163,7 +201,6 @@ limitations under the License.
     
     // Handle location updates here
     CLLocation *lastLocation = [locations lastObject];
-    NSLog(@"New Location: %@", lastLocation);
     
     NSMutableDictionary* event = [[NSMutableDictionary alloc] init];
     [event setObject:@(NBSFuseLocationEventLocation) forKey:@"type"];
