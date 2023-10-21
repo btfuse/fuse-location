@@ -35,7 +35,8 @@ interface ISubscriptionResponse {
 
 export class IOSFuseLocationPlugin extends FuseLocationPlugin {
     public override async assertSettings(options: IFuseLocationSubscriptionOptions): Promise<IFuseLocationSettingsState> {
-        throw new Error('Not implemented');
+        let res: FuseAPIResponse = await this._exec('/assertSettings', ContentType.JSON, options);
+        return res.readAsJSON();
     }
     
     protected override async _subscribe(options: IFuseLocationSubscriptionOptions, justificationHandler: TFuseJustificationHandler): Promise<FuseLocationSubscription> {

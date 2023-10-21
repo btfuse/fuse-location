@@ -46,17 +46,59 @@ limitations under the License.
 - (void) initHandles {
     __weak NBSFuseLocationPlugin* weakSelf = self;
     
-//    [self attachHandler:@"/assertSettings" callback:^(NBSFuseAPIPacket* packet, NBSFuseAPIResponse* response) {
-//       // iOS doesn't have a way to assert settings, so we will hard-code some meaningful values.
-//        NSDictionary* settings = @{
-//            @"bluetoohPresent": @(false),
-//            @"bluetoohUsable": @(false),
-//            @"locationPresent": @(true),
-//            @"gpsPresent": @(true),
-//            @"networkPresent": @(true)
-//            @"locationUsable": [CLLocationManager is
-//        };
-//    }];
+    [self attachHandler:@"/assertSettings" callback:^(NBSFuseAPIPacket* packet, NBSFuseAPIResponse* response) {
+        NBSFuseLocationPlugin* strongSelf = weakSelf;
+        
+        NSError* error = nil;
+        NSDictionary* data = [packet readAsJSONObject: error];
+        
+        if (error != nil) {
+            [response sendError:[[NBSFuseError alloc] init:[strongSelf getID] withCode: 0 withError:error]];
+            return;
+        }
+        
+        NSString* clientID = [data objectForKey:@"subscriptionID"];
+        if (clientID == nil) {
+            [response sendError:[[NBSFuseError alloc] init:[strongSelf getID] withCode: 0 withMessage:@"Subscription ID required"]];
+            return;
+        }
+        
+        NBSFuseLocationClient* client = [strongSelf->$clients objectForKey: clientID];
+        if (client == nil) {
+            [response sendError:[
+                [NBSFuseError alloc] init:[strongSelf getID] withCode: 0 withMessage: [
+                    NSString stringWithFormat:@"No Subscription Client for id %@", clientID
+                ]]
+            ];
+            return;
+        }
+        
+        CLLocationManager* lm = [client getAPI];
+        
+        NSMutableDictionary* state = [[NSMutableDictionary alloc] init];
+        
+        // iOS doesn't tell you if bluetooth is present or usable for GPS
+        [state setObject: [NSNull null] forKey:@"bluetoothPresent"];
+        [state setObject: [NSNull null] forKey:@"bluetoothUsable"];
+        
+        bool isLocationUsable = [CLLocationManager locationServicesEnabled] && (
+            [lm authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse ||
+            [lm authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways
+        );
+        
+        // Likewise, for GPS/Network iOS doesn't tell you which one it's using,
+        // but I think we can safely assume that today both are at the very least present on any iOS device.
+        // And likewise... we can't actually distingquish between what the location manager is providing us,
+        // so they are all either true or false depending on if location is enabled
+        [state setObject: @(true) forKey:@"locationPresent"];
+        [state setObject:@(isLocationUsable) forKey:@"locationUsable"];
+        [state setObject:@(true) forKey:@"gpsPresent"];
+        [state setObject:@(isLocationUsable) forKey:@"gpsUsable"];
+        [state setObject:@(true) forKey:@"networkPresent"];
+        [state setObject:@(isLocationUsable) forKey:@"networkUsable"];
+        
+        [response sendJSON: state];
+    }];
 
     [self attachHandler:@"/callback" callback:^(NBSFuseAPIPacket* packet, NBSFuseAPIResponse* response) {
         NBSFuseLocationPlugin* strongSelf = weakSelf;
@@ -69,6 +111,11 @@ limitations under the License.
         
         NSError* error = nil;
         NSDictionary* data = [packet readAsJSONObject: error];
+        
+        if (error != nil) {
+            [response sendError:[[NBSFuseError alloc] init:[strongSelf getID] withCode: 0 withError:error]];
+            return;
+        }
         
 //        NSNumber* interval = [data objectForKey:@"interval"];
         NSNumber* desiredAccuracy = [data objectForKey:@"accuracy"];

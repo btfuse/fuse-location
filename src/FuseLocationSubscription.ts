@@ -33,6 +33,7 @@ import { FuseLocationPlugin } from './FuseLocationPlugin';
 interface __IFuseLocationSubscriptionOptions {
     accuracy: FuseLocationAccuracy;
     interval: number;
+    subscriptionID?: string;
 }
 
 export type IFuseLocationSubscriptionOptions = TFuseSerializable<__IFuseLocationSubscriptionOptions>;
@@ -138,7 +139,10 @@ export class FuseLocationSubscription {
     }
 
     public async assertSettings(): Promise<IFuseLocationSettingsState> {
-        return await this.$plugin.assertSettings(this.$options);
+        return await this.$plugin.assertSettings({
+            ...this.$options,
+            subscriptionID: this.getID()
+        });
     }
 
     public async release(): Promise<void> {
