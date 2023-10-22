@@ -1,5 +1,5 @@
 /*
-Copyright 2023 Norman Breau 
+Copyright 2023 Breautek 
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,11 +15,11 @@ limitations under the License.
 */
 
 #import "ViewController.h"
-#import <NBSFuse/NBSFuse.h>
-#import <NBSFuseLocation/NBSFuseLocation.h>
+#import <BTFuse/BTFuse.h>
+#import <BTFuseLocation/BTFuseLocation.h>
 
 @implementation ViewController {
-    NBSFuseViewController* $fuseController;
+    BTFuseViewController* $fuseController;
 }
 
 - (instancetype) init {
@@ -41,9 +41,9 @@ limitations under the License.
 }
 
 - (void) $initialize {
-    $fuseController = [[NBSFuseViewController alloc] init];
-    NBSFuseContext* context = [$fuseController getContext];
-    [context registerPlugin:[[NBSFuseLocationPlugin alloc] init: context]];
+    $fuseController = [[BTFuseViewController alloc] init];
+    BTFuseContext* context = [$fuseController getContext];
+    [context registerPlugin:[[BTFuseLocationPlugin alloc] init: context]];
 }
 
 - (void)viewDidLoad {

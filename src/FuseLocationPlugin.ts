@@ -1,6 +1,6 @@
 
 /*
-Copyright 2023 Norman Breau 
+Copyright 2023 Breautek 
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import {
     TFuseJustificationHandler,
     FuseContext,
     FuseError
-} from '@nbsfuse/core';
+} from '@btfuse/core';
 import {
     FuseLocationSubscription,
     FuseLocationSubscriptionOptionsBuilder,

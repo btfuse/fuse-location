@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'ca.nbsolutions.fuse.plugins.location'
+    namespace 'com.breautek.fuse.plugins.location'
     compileSdk 34
 
     defaultConfig {
-        applicationId "ca.nbsolutions.fuse.plugins.location"
+        applicationId "com.breautek.fuse.plugins.location.testapp"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation 'nbs.fuse:core:0.6.0'
+    implementation 'com.breautek.fuse:core:0.7.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

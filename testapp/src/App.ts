@@ -17,7 +17,7 @@
 import {
     FuseContext,
     FuseContextBuilder
-} from '@nbsfuse/core';
+} from '@btfuse/core';
 
 import {
     FuseLocationPlugin,

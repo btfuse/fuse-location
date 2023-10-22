@@ -1,6 +1,6 @@
 
 /*
-Copyright 2023 Norman Breau 
+Copyright 2023 Breautek 
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@ limitations under the License.
 
 import {
     FuseError,
-    FusePermissionGrantResult
-} from '@nbsfuse/core';
+    FusePermissionGrantResult,
+    TFuseSerializable
+} from '@btfuse/core';
 import { FuseLocationAccuracy } from './FuseLocationAccuracy';
-import { TFuseSerializable } from '@nbsfuse/core';
 import {
     TFuseGeolocationPoint
 } from './TFuseGeolocationPoint';

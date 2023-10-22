@@ -14,22 +14,22 @@
 		940126EE2AD778A000F76331 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 940126ED2AD778A000F76331 /* Assets.xcassets */; };
 		940126F12AD778A000F76331 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 940126EF2AD778A000F76331 /* LaunchScreen.storyboard */; };
 		940126F42AD778A000F76331 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 940126F32AD778A000F76331 /* main.m */; };
-		940127062AD778C700F76331 /* NBSFuse.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 940127052AD778C700F76331 /* NBSFuse.xcframework */; };
-		940127072AD778C700F76331 /* NBSFuse.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 940127052AD778C700F76331 /* NBSFuse.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		940127092AD778DF00F76331 /* NBSFuseLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 940127082AD778DF00F76331 /* NBSFuseLocation.framework */; };
-		9401270A2AD778DF00F76331 /* NBSFuseLocation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 940127082AD778DF00F76331 /* NBSFuseLocation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9401270D2AD77AEA00F76331 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 9401270C2AD77AEA00F76331 /* assets */; };
+		944112B32AE5C43A00309527 /* BTFuse.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 944112B22AE5C43A00309527 /* BTFuse.xcframework */; };
+		944112B42AE5C43A00309527 /* BTFuse.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 944112B22AE5C43A00309527 /* BTFuse.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		944112B72AE5C43F00309527 /* BTFuseLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 944112B62AE5C43F00309527 /* BTFuseLocation.framework */; };
+		944112B82AE5C43F00309527 /* BTFuseLocation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 944112B62AE5C43F00309527 /* BTFuseLocation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		940126FE2AD778AE00F76331 /* Embed Frameworks */ = {
+		944112B52AE5C43A00309527 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9401270A2AD778DF00F76331 /* NBSFuseLocation.framework in Embed Frameworks */,
-				940127072AD778C700F76331 /* NBSFuse.xcframework in Embed Frameworks */,
+				944112B82AE5C43F00309527 /* BTFuseLocation.framework in Embed Frameworks */,
+				944112B42AE5C43A00309527 /* BTFuse.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,6 +52,8 @@
 		940127052AD778C700F76331 /* NBSFuse.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = NBSFuse.xcframework; path = "/Users/norman/development/nbsolutions/fuse-plugins/fuse-location/ios/NBSFuseLocation/../../deps/fuse-ios/fuse-ios_NBSFuse.xcframework.zip/NBSFuse.xcframework"; sourceTree = "<absolute>"; };
 		940127082AD778DF00F76331 /* NBSFuseLocation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NBSFuseLocation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9401270C2AD77AEA00F76331 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = testapp/assets; sourceTree = "<group>"; };
+		944112B22AE5C43A00309527 /* BTFuse.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BTFuse.xcframework; path = "/Users/norman/development/breautek/fuse-plugins/fuse-location/ios/BTFuseLocation/../../deps/fuse-ios/fuse-ios_BTFuse.xcframework.zip/BTFuse.xcframework"; sourceTree = "<absolute>"; };
+		944112B62AE5C43F00309527 /* BTFuseLocation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BTFuseLocation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,8 +61,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				940127092AD778DF00F76331 /* NBSFuseLocation.framework in Frameworks */,
-				940127062AD778C700F76331 /* NBSFuse.xcframework in Frameworks */,
+				944112B72AE5C43F00309527 /* BTFuseLocation.framework in Frameworks */,
+				944112B32AE5C43A00309527 /* BTFuse.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +108,8 @@
 		940126FA2AD778AE00F76331 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				944112B62AE5C43F00309527 /* BTFuseLocation.framework */,
+				944112B22AE5C43A00309527 /* BTFuse.xcframework */,
 				940127082AD778DF00F76331 /* NBSFuseLocation.framework */,
 				940127052AD778C700F76331 /* NBSFuse.xcframework */,
 			);
@@ -123,7 +127,7 @@
 				940126DA2AD7789F00F76331 /* Sources */,
 				940126DB2AD7789F00F76331 /* Frameworks */,
 				940126DC2AD7789F00F76331 /* Resources */,
-				940126FE2AD778AE00F76331 /* Embed Frameworks */,
+				944112B52AE5C43A00309527 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

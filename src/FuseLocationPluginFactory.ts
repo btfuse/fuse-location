@@ -1,6 +1,6 @@
 
 /*
-Copyright 2023 Norman Breau 
+Copyright 2023 Breautek 
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { FuseContext, FuseError, Platform } from "@nbsfuse/core";
+import { FuseContext, FuseError, Platform } from "@btfuse/core";
 import { FuseLocationPlugin } from "./FuseLocationPlugin";
 import { AndroidFuseLocationPlugin } from "./android/AndroidFuseLocationPlugin";
 import { IOSFuseLocationPlugin } from "./ios/IOSFuseLocationPlugin";

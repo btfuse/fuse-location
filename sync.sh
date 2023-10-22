@@ -1,5 +1,5 @@
 
-# Copyright 2023 Norman Breau 
+# Copyright 2023 Breautek 
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,4 +15,4 @@
 
 source build-tools/DepTools.sh
 
-SyncDepFromGitHub "nbsfuse" "fuse-ios" "0.6.2" "NBSFuse.xcframework.zip"
+SyncDepFromGitHub "btfuse" "fuse-ios" "0.7.0" "BTFuse.xcframework.zip"
