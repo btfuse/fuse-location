@@ -141,8 +141,6 @@ limitations under the License.
             lm.distanceFilter = kCLDistanceFilterNone;
         }
         
-        bool apiEnabled = [CLLocationManager locationServicesEnabled];
-        
         CLAuthorizationStatus status = [lm authorizationStatus];
         if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
             [client start];
@@ -198,9 +196,6 @@ limitations under the License.
         // Plugin hasn't been initialized yet..?
         return;
     }
-    
-    // Handle location updates here
-    CLLocation *lastLocation = [locations lastObject];
     
     NSMutableDictionary* event = [[NSMutableDictionary alloc] init];
     [event setObject:@(BTFuseLocationEventLocation) forKey:@"type"];
