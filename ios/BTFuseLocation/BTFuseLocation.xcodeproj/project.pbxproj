@@ -16,6 +16,7 @@
 		940127112AD7807D00F76331 /* BTFuseLocationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 940127102AD7807D00F76331 /* BTFuseLocationClient.m */; };
 		940127132AD783AC00F76331 /* BTFuseLocationAccuracy.h in Headers */ = {isa = PBXBuildFile; fileRef = 940127122AD783AC00F76331 /* BTFuseLocationAccuracy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		940127152AD78DF700F76331 /* BTFuseLocationEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 940127142AD78DF700F76331 /* BTFuseLocationEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		944112BE2AED456900309527 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 944112BD2AED456900309527 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		940127102AD7807D00F76331 /* BTFuseLocationClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTFuseLocationClient.m; sourceTree = "<group>"; };
 		940127122AD783AC00F76331 /* BTFuseLocationAccuracy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTFuseLocationAccuracy.h; sourceTree = "<group>"; };
 		940127142AD78DF700F76331 /* BTFuseLocationEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTFuseLocationEvent.h; sourceTree = "<group>"; };
+		944112BD2AED456900309527 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 		940126B52AD46CBF00F76331 = {
 			isa = PBXGroup;
 			children = (
+				944112BD2AED456900309527 /* PrivacyInfo.xcprivacy */,
 				940126C92AD46DA100F76331 /* Frameworks */,
 				940126C12AD46CBF00F76331 /* BTFuseLocation */,
 				940126C02AD46CBF00F76331 /* Products */,
@@ -173,6 +176,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				944112BE2AED456900309527 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
