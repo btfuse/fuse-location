@@ -23,15 +23,15 @@
   },
   "homepage": "https://github.com/btfuse/fuse-location#readme",
   "peerDependencies": {
-    "@btfuse/core": "^0.7.0"
+    "@btfuse/core": "^0.8.0"
   },
   "devDependencies": {
-    "@btfuse/core": "0.7.0",
-    "@types/geojson": "^7946.0.12",
+    "@btfuse/core": "^0.8.0",
+    "@types/geojson": "^7946.0.13",
     "copy-webpack-plugin": "11.0.0",
     "source-map-loader": "4.0.1",
-    "ts-loader": "^9.5.0",
-    "typescript": "5.2.2",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
     "webpack": "^5.89.0",
     "webpack-cli": "5.1.4"
   },

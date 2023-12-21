@@ -38,7 +38,10 @@ android {
 }
 
 dependencies {
-    compileOnly 'com.breautek.fuse:core:0.7.1'
+    compileOnly 'com.breautek.fuse:core:0.8.2'
+    androidTestImplementation 'com.breautek.fuse:core:0.8.2'
+    androidTestImplementation 'com.breautek.fuse:test-tools:0.0.2'
+    androidTestImplementation 'com.google.android.material:material:1.11.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     testImplementation 'junit:junit:4.13.2'
