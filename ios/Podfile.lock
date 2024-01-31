@@ -1,0 +1,16 @@
+PODS:
+  - BTFuse (0.8.7)
+
+DEPENDENCIES:
+  - BTFuse (= 0.8.7)
+
+SPEC REPOS:
+  https://github.com/breautek/pods.git:
+    - BTFuse
+
+SPEC CHECKSUMS:
+  BTFuse: 7502f5681dcedce305488703149a4aa22e5b0799
+
+PODFILE CHECKSUM: 75eff252ff893c319d866b6dcd8e6b5a992995ea
+
+COCOAPODS: 1.15.0

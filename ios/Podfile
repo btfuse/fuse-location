@@ -1,0 +1,14 @@
+
+workspace 'BTFuseLocation'
+
+platform :ios, '15.0'
+
+source 'https://github.com/breautek/pods.git'
+
+target 'BTFuseLocation' do
+    project 'BTFuseLocation/BTFuseLocation'
+    use_frameworks!
+    
+    pod 'BTFuse', '0.8.7'
+end
+

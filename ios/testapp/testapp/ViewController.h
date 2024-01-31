@@ -15,8 +15,9 @@ limitations under the License.
 */
 
 #import <UIKit/UIKit.h>
+#import <BTFuse/BTFuse.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <BTFuseViewControllerDelegate>
 
 
 @end

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		940126C32AD46CBF00F76331 /* BTFuseLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 940126C22AD46CBF00F76331 /* BTFuseLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		940126CB2AD46DAB00F76331 /* BTFuse.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 940126CA2AD46DAB00F76331 /* BTFuse.xcframework */; };
 		940126CF2AD46DF500F76331 /* BTFuseLocationPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 940126CE2AD46DF500F76331 /* BTFuseLocationPlugin.m */; };
 		940126D12AD46E0F00F76331 /* BTFuseLocationPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 940126D02AD46E0F00F76331 /* BTFuseLocationPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		940126D32AD470E700F76331 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 940126D22AD470E700F76331 /* CoreLocation.framework */; };
@@ -17,12 +16,14 @@
 		940127132AD783AC00F76331 /* BTFuseLocationAccuracy.h in Headers */ = {isa = PBXBuildFile; fileRef = 940127122AD783AC00F76331 /* BTFuseLocationAccuracy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		940127152AD78DF700F76331 /* BTFuseLocationEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 940127142AD78DF700F76331 /* BTFuseLocationEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		944112BE2AED456900309527 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 944112BD2AED456900309527 /* PrivacyInfo.xcprivacy */; };
+		94C3AF552B69CBD3006AD040 /* BTFuse.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94C3AF512B69AE32006AD040 /* BTFuse.xcframework */; };
+		C5AED2961BBA5B858B58EE9A /* Pods_BTFuseLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BD5A694D719A8A0C72902E /* Pods_BTFuseLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04BD5A694D719A8A0C72902E /* Pods_BTFuseLocation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BTFuseLocation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		940126BF2AD46CBF00F76331 /* BTFuseLocation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BTFuseLocation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		940126C22AD46CBF00F76331 /* BTFuseLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTFuseLocation.h; sourceTree = "<group>"; };
-		940126CA2AD46DAB00F76331 /* BTFuse.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BTFuse.xcframework; path = "../../deps/fuse-ios/fuse-ios_BTFuse.xcframework.zip/BTFuse.xcframework"; sourceTree = "<group>"; };
 		940126CE2AD46DF500F76331 /* BTFuseLocationPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTFuseLocationPlugin.m; sourceTree = "<group>"; };
 		940126D02AD46E0F00F76331 /* BTFuseLocationPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTFuseLocationPlugin.h; sourceTree = "<group>"; };
 		940126D22AD470E700F76331 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
@@ -31,6 +32,9 @@
 		940127122AD783AC00F76331 /* BTFuseLocationAccuracy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTFuseLocationAccuracy.h; sourceTree = "<group>"; };
 		940127142AD78DF700F76331 /* BTFuseLocationEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTFuseLocationEvent.h; sourceTree = "<group>"; };
 		944112BD2AED456900309527 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		94C3AF512B69AE32006AD040 /* BTFuse.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BTFuse.xcframework; path = ../Pods/BTFuse/BTFuse.xcframework; sourceTree = "<group>"; };
+		A7DC95CEEA67E1698E0D5C11 /* Pods-BTFuseLocation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BTFuseLocation.debug.xcconfig"; path = "Target Support Files/Pods-BTFuseLocation/Pods-BTFuseLocation.debug.xcconfig"; sourceTree = "<group>"; };
+		EC0A8CF1A49387CEADB4C1EC /* Pods-BTFuseLocation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BTFuseLocation.release.xcconfig"; path = "Target Support Files/Pods-BTFuseLocation/Pods-BTFuseLocation.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,13 +43,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				940126D32AD470E700F76331 /* CoreLocation.framework in Frameworks */,
-				940126CB2AD46DAB00F76331 /* BTFuse.xcframework in Frameworks */,
+				C5AED2961BBA5B858B58EE9A /* Pods_BTFuseLocation.framework in Frameworks */,
+				94C3AF552B69CBD3006AD040 /* BTFuse.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		78483B6AC8A0488E8E67882B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A7DC95CEEA67E1698E0D5C11 /* Pods-BTFuseLocation.debug.xcconfig */,
+				EC0A8CF1A49387CEADB4C1EC /* Pods-BTFuseLocation.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
 		940126B52AD46CBF00F76331 = {
 			isa = PBXGroup;
 			children = (
@@ -53,6 +68,7 @@
 				940126C92AD46DA100F76331 /* Frameworks */,
 				940126C12AD46CBF00F76331 /* BTFuseLocation */,
 				940126C02AD46CBF00F76331 /* Products */,
+				78483B6AC8A0488E8E67882B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,8 +93,9 @@
 		940126C92AD46DA100F76331 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				94C3AF512B69AE32006AD040 /* BTFuse.xcframework */,
 				940126D22AD470E700F76331 /* CoreLocation.framework */,
-				940126CA2AD46DAB00F76331 /* BTFuse.xcframework */,
+				04BD5A694D719A8A0C72902E /* Pods_BTFuseLocation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -125,6 +142,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 940126C62AD46CBF00F76331 /* Build configuration list for PBXNativeTarget "BTFuseLocation" */;
 			buildPhases = (
+				39F73FE9B14BB84C0A102FF8 /* [CP] Check Pods Manifest.lock */,
 				940126BA2AD46CBF00F76331 /* Headers */,
 				940126BB2AD46CBF00F76331 /* Sources */,
 				940126BC2AD46CBF00F76331 /* Frameworks */,
@@ -181,6 +199,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		39F73FE9B14BB84C0A102FF8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BTFuseLocation-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		940126BB2AD46CBF00F76331 /* Sources */ = {
@@ -248,7 +291,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -306,7 +349,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -319,6 +362,7 @@
 		};
 		940126C72AD46CBF00F76331 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7DC95CEEA67E1698E0D5C11 /* Pods-BTFuseLocation.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -331,7 +375,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -350,6 +393,7 @@
 		};
 		940126C82AD46CBF00F76331 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EC0A8CF1A49387CEADB4C1EC /* Pods-BTFuseLocation.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -362,7 +406,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

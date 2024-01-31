@@ -9,3 +9,5 @@ xcuserdata
 /deps
 /android/testapp/src/main/assets
 /ios/testapp/testapp/assets
+/ios/Pods
+

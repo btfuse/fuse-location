@@ -22,39 +22,25 @@ limitations under the License.
     BTFuseViewController* $fuseController;
 }
 
-- (instancetype) init {
-    self = [super init];
-    [self $initialize];
-    return self;
-}
-
-- (instancetype) initWithCoder:(NSCoder*) coder {
-    self = [super initWithCoder:coder];
-    [self $initialize];
-    return self;
-}
-
-- (instancetype) initWithNibName:(NSString*) nibNameOrNil bundle:(NSBundle*) nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    [self $initialize];
-    return self;
-}
-
-- (void) $initialize {
-    $fuseController = [[BTFuseViewController alloc] init];
+- (void) onContextReady {
     BTFuseContext* context = [$fuseController getContext];
     [context registerPlugin:[[BTFuseLocationPlugin alloc] init: context]];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    [self addChildViewController: $fuseController];
-    [self.view addSubview: $fuseController.view];
-    
+- (void) onWebviewReady {
     if (@available(iOS 16.4, *)) {
         [[$fuseController getContext] getWebview].inspectable = true;
     }
+}
+
+- (void) viewDidLoad {
+    [super viewDidLoad];
+    
+    $fuseController = [[BTFuseViewController alloc] init: self];
+    
+    [self addChildViewController: $fuseController];
+    [self.view addSubview: $fuseController.view];
+    [$fuseController didMoveToParentViewController: self];
 }
 
 @end
